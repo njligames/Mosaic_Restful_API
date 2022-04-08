@@ -12,27 +12,27 @@ info:
 host: "petstore.swagger.io"
 basePath: "/v2"
 tags:
-- name: "pet"
+- name: "targetImage"
   description: "Everything about your Target Image"
   externalDocs:
     description: "Find out more"
     url: "http://swagger.io"
-- name: "store"
+- name: "mosaic"
   description: "Access to Mosaic Image processing"
 - name: "user"
   description: "Operations about user"
   externalDocs:
-    description: "Find out more about our store"
+    description: "Find out more about our mosaic"
     url: "http://swagger.io"
 schemes:
 - "https"
 - "http"
 paths:
-  /pet:
+  /targetImage:
     post:
       tags:
-      - "pet"
-      summary: "Add a new Target Image to the gallery"
+      - "targetImage"
+      summary: "Add a new Target Image to be processed as a mosaic"
       description: ""
       operationId: "addPet"
       consumes:
@@ -44,7 +44,7 @@ paths:
       parameters:
       - in: "body"
         name: "body"
-        description: "TargetImage object that needs to be added to the gallery"
+        description: "TargetImage object that needs to be added to be processed into a mosaic"
         required: true
         schema:
           $ref: "#/definitions/TargetImage"
@@ -57,7 +57,7 @@ paths:
         - "read:pets"
     put:
       tags:
-      - "pet"
+      - "targetImage"
       summary: "Update an existing Target Image"
       description: ""
       operationId: "updatePet"
@@ -70,7 +70,7 @@ paths:
       parameters:
       - in: "body"
         name: "body"
-        description: "TargetImage object that needs to be added to the gallery"
+        description: "TargetImage object that needs to be added to be processed as a mosaic."
         required: true
         schema:
           $ref: "#/definitions/TargetImage"
@@ -85,10 +85,10 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-  /pet/findByStatus:
+  /targetImage/findByStatus:
     get:
       tags:
-      - "pet"
+      - "targetImage"
       summary: "Finds Target Image by status"
       description: "Multiple status values can be provided with comma separated strings"
       operationId: "findPetsByStatus"
@@ -103,11 +103,11 @@ paths:
         type: "array"
         items:
           type: "string"
-          enum:
-          - "available"
-          - "pending"
-          - "sold"
-          default: "available"
+        enum:
+        - "ready"
+        - "processing"
+        - "done"
+        default: "ready"
         collectionFormat: "multi"
       responses:
         "200":
@@ -122,10 +122,10 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-  /pet/findByTags:
+  /targetImage/findByTags:
     get:
       tags:
-      - "pet"
+      - "targetImage"
       summary: "Finds Target Image by tags"
       description: "Muliple tags can be provided with comma separated strings. Use         tag1, tag2, tag3 for testing."
       operationId: "findPetsByTags"
@@ -154,21 +154,20 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      deprecated: true
-  /pet/{petId}:
+  /targetImage/{targetImageId}:
     get:
       tags:
-      - "pet"
+      - "targetImage"
       summary: "Find Target Image by ID"
-      description: "Returns a single pet"
+      description: "Returns a single targetImage"
       operationId: "getPetById"
       produces:
       - "application/xml"
       - "application/json"
       parameters:
-      - name: "petId"
+      - name: "targetImageId"
         in: "path"
-        description: "ID of pet to return"
+        description: "ID of targetImage to return"
         required: true
         type: "integer"
         format: "int64"
@@ -185,7 +184,7 @@ paths:
       - api_key: []
     post:
       tags:
-      - "pet"
+      - "targetImage"
       summary: "Updates a Target Image in the store with form data"
       description: ""
       operationId: "updatePetWithForm"
@@ -195,20 +194,20 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
-      - name: "petId"
+      - name: "targetImageId"
         in: "path"
-        description: "ID of pet that needs to be updated"
+        description: "ID of targetImage that needs to be updated"
         required: true
         type: "integer"
         format: "int64"
       - name: "name"
         in: "formData"
-        description: "Updated name of the pet"
+        description: "Updated name of the targetImage"
         required: false
         type: "string"
       - name: "status"
         in: "formData"
-        description: "Updated status of the pet"
+        description: "Updated status of the targetImage"
         required: false
         type: "string"
       responses:
@@ -220,7 +219,7 @@ paths:
         - "read:pets"
     delete:
       tags:
-      - "pet"
+      - "targetImage"
       summary: "Deletes a Target Image"
       description: ""
       operationId: "deletePet"
@@ -232,7 +231,7 @@ paths:
         in: "header"
         required: false
         type: "string"
-      - name: "petId"
+      - name: "targetImageId"
         in: "path"
         description: "TargetImage id to delete"
         required: true
@@ -247,10 +246,10 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-  /pet/{petId}/uploadImage:
+  /targetImage/{targetImageId}/uploadTileImage:
     post:
       tags:
-      - "pet"
+      - "targetImage"
       summary: "uploads a Tile image"
       description: ""
       operationId: "uploadFile"
@@ -259,9 +258,9 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "petId"
+      - name: "targetImageId"
         in: "path"
-        description: "ID of pet to update"
+        description: "ID of targetImage to update"
         required: true
         type: "integer"
         format: "int64"
@@ -284,10 +283,10 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-  /store/inventory:
+  /mosaic/inventory:
     get:
       tags:
-      - "store"
+      - "mosaic"
       summary: "Returns targetImage inventories by status"
       description: "Returns a map of status codes to quantities"
       operationId: "getInventory"
@@ -304,10 +303,10 @@ paths:
               format: "int32"
       security:
       - api_key: []
-  /store/order:
+  /mosaic/process:
     post:
       tags:
-      - "store"
+      - "mosaic"
       summary: "Place a process order for a Mosaic Image"
       description: ""
       operationId: "placeOrder"
@@ -320,18 +319,18 @@ paths:
         description: "order placed for processing the targetImage"
         required: true
         schema:
-          $ref: "#/definitions/Order"
+          $ref: "#/definitions/Process"
       responses:
         "200":
           description: "successful operation"
           schema:
-            $ref: "#/definitions/Order"
+            $ref: "#/definitions/Process"
         "400":
-          description: "Invalid Order"
-  /store/order/{orderId}:
+          description: "Invalid Process"
+  /mosaic/process/{processId}:
     get:
       tags:
-      - "store"
+      - "mosaic"
       summary: "Find process order by ID"
       description: "For valid response try integer IDs with value >= 1 and <= 10.         Other values will generated exceptions"
       operationId: "getOrderById"
@@ -339,9 +338,9 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
-      - name: "orderId"
+      - name: "processId"
         in: "path"
-        description: "ID of pet that needs to be fetched"
+        description: "ID of targetImage that needs to be fetched"
         required: true
         type: "integer"
         maximum: 10.0
@@ -351,14 +350,14 @@ paths:
         "200":
           description: "successful operation"
           schema:
-            $ref: "#/definitions/Order"
+            $ref: "#/definitions/Process"
         "400":
           description: "Invalid ID supplied"
         "404":
-          description: "Order not found"
+          description: "Process not found"
     delete:
       tags:
-      - "store"
+      - "mosaic"
       summary: "Delete process order by ID"
       description: "For valid response try integer IDs with positive integer value.         Negative or non-integer values will generate API errors"
       operationId: "deleteOrder"
@@ -366,7 +365,7 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
-      - name: "orderId"
+      - name: "processId"
         in: "path"
         description: "ID of the order that needs to be deleted"
         required: true
@@ -377,7 +376,7 @@ paths:
         "400":
           description: "Invalid ID supplied"
         "404":
-          description: "Order not found"
+          description: "Process not found"
   /user:
     post:
       tags:
@@ -577,43 +576,33 @@ securityDefinitions:
     name: "api_key"
     in: "header"
 definitions:
-  Order:
+  Process:
     type: "object"
     properties:
       id:
         type: "integer"
         format: "int64"
-      petId:
+      targetImageId:
         type: "integer"
         format: "int64"
-      quantity:
-        type: "integer"
-        format: "int32"
       shipDate:
         type: "string"
         format: "date-time"
       status:
         type: "string"
-        description: "Order Status"
+        description: "Process Status"
         enum:
-        - "placed"
-        - "approved"
-        - "delivered"
+        - "ready"
+        - "processing"
+        - "done"
+        default: "ready"
       complete:
         type: "boolean"
         default: false
-    xml:
-      name: "Order"
-  Category:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
+      mosaicImageUrl:
         type: "string"
     xml:
-      name: "Category"
+      name: "Process"
   User:
     type: "object"
     properties:
@@ -657,12 +646,10 @@ definitions:
       id:
         type: "integer"
         format: "int64"
-      category:
-        $ref: "#/definitions/Category"
       name:
         type: "string"
         example: "doggie image"
-      imageTileUrls:
+      tileImageUrls:
         type: "array"
         xml:
           name: "imageTileUrl"
@@ -676,13 +663,6 @@ definitions:
           wrapped: true
         items:
           $ref: "#/definitions/Tag"
-      status:
-        type: "string"
-        description: "pet status in the store"
-        enum:
-        - "available"
-        - "pending"
-        - "sold"
     xml:
       name: "TargetImage"
   ApiResponse:
