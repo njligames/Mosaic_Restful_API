@@ -1,6 +1,10 @@
+---
 swagger: "2.0"
 info:
-  description: "This is a sample server Petstore server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters."
+  description: "This is a sample server Petstore server.  You can find out more about\
+    \     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net,\
+    \ #swagger](http://swagger.io/irc/).      For this sample, you can use the api\
+    \ key `special-key` to test the authorization     filters."
   version: "1.0.0"
   title: "Swagger Petstore"
   termsOfService: "http://swagger.io/terms/"
@@ -34,7 +38,7 @@ paths:
       - "targetImage"
       summary: "Add a new Target Image to be processed as a mosaic"
       description: ""
-      operationId: "addPet"
+      operationId: "add_pet"
       consumes:
       - "application/json"
       - "application/xml"
@@ -44,10 +48,15 @@ paths:
       parameters:
       - in: "body"
         name: "body"
-        description: "TargetImage object that needs to be added to be processed into a mosaic"
+        description: "TargetImage object that needs to be added to be processed into\
+          \ a mosaic"
         required: true
         schema:
           $ref: "#/definitions/TargetImage"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
       responses:
         "200":
           description: "successful operation"
@@ -55,16 +64,13 @@ paths:
             $ref: "#/definitions/TargetImage"
         "405":
           description: "Invalid input"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
+      x-swagger-router-controller: "swagger_server.controllers.target_image_controller"
     put:
       tags:
       - "targetImage"
       summary: "Update an existing Target Image"
       description: ""
-      operationId: "updatePet"
+      operationId: "update_pet"
       consumes:
       - "application/json"
       - "application/xml"
@@ -74,10 +80,15 @@ paths:
       parameters:
       - in: "body"
         name: "body"
-        description: "TargetImage object that needs to be added to be processed as a mosaic."
+        description: "TargetImage object that needs to be added to be processed as\
+          \ a mosaic."
         required: true
         schema:
           $ref: "#/definitions/TargetImage"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
       responses:
         "400":
           description: "Invalid ID supplied"
@@ -85,54 +96,15 @@ paths:
           description: "TargetImage not found"
         "405":
           description: "Validation exception"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  # /targetImage/findByStatus:
-  #   get:
-  #     tags:
-  #     - "targetImage"
-  #     summary: "Finds Target Image by status"
-  #     description: "Multiple status values can be provided with comma separated strings"
-  #     operationId: "findPetsByStatus"
-  #     produces:
-  #     - "application/xml"
-  #     - "application/json"
-  #     parameters:
-  #     - name: "status"
-  #       in: "query"
-  #       description: "Status values that need to be considered for filter"
-  #       required: true
-  #       type: "array"
-  #       items:
-  #         type: "string"
-  #       enum:
-  #       - "ready"
-  #       - "processing"
-  #       - "done"
-  #       default: "ready"
-  #       collectionFormat: "multi"
-  #     responses:
-  #       "200":
-  #         description: "successful operation"
-  #         schema:
-  #           type: "array"
-  #           items:
-  #             $ref: "#/definitions/TargetImage"
-  #       "400":
-  #         description: "Invalid status value"
-  #     security:
-  #     - petstore_auth:
-  #       - "write:pets"
-  #       - "read:pets"
+      x-swagger-router-controller: "swagger_server.controllers.target_image_controller"
   /targetImage/findByTags:
     get:
       tags:
       - "targetImage"
       summary: "Finds Target Image by tags"
-      description: "Muliple tags can be provided with comma separated strings. Use         tag1, tag2, tag3 for testing."
-      operationId: "findPetsByTags"
+      description: "Muliple tags can be provided with comma separated strings. Use\
+        \         tag1, tag2, tag3 for testing."
+      operationId: "find_pets_by_tags"
       produces:
       - "application/xml"
       - "application/json"
@@ -145,6 +117,10 @@ paths:
         items:
           type: "string"
         collectionFormat: "multi"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
       responses:
         "200":
           description: "successful operation"
@@ -154,17 +130,14 @@ paths:
               $ref: "#/definitions/TargetImage"
         "400":
           description: "Invalid tag value"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
+      x-swagger-router-controller: "swagger_server.controllers.target_image_controller"
   /targetImage/{targetImageId}:
     get:
       tags:
       - "targetImage"
       summary: "Find Target Image by ID"
       description: "Returns a single targetImage"
-      operationId: "getPetById"
+      operationId: "get_pet_by_id"
       produces:
       - "application/xml"
       - "application/json"
@@ -175,6 +148,8 @@ paths:
         required: true
         type: "integer"
         format: "int64"
+      security:
+      - api_key: []
       responses:
         "200":
           description: "successful operation"
@@ -184,49 +159,13 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "TargetImage not found"
-      security:
-      - api_key: []
-    # post:
-    #   tags:
-    #   - "targetImage"
-    #   summary: "Updates a Target Image in the store with form data"
-    #   description: ""
-    #   operationId: "updatePetWithForm"
-    #   consumes:
-    #   - "application/x-www-form-urlencoded"
-    #   produces:
-    #   - "application/xml"
-    #   - "application/json"
-    #   parameters:
-    #   - name: "targetImageId"
-    #     in: "path"
-    #     description: "ID of targetImage that needs to be updated"
-    #     required: true
-    #     type: "integer"
-    #     format: "int64"
-    #   - name: "name"
-    #     in: "formData"
-    #     description: "Updated name of the targetImage"
-    #     required: false
-    #     type: "string"
-    #   - name: "status"
-    #     in: "formData"
-    #     description: "Updated status of the targetImage"
-    #     required: false
-    #     type: "string"
-    #   responses:
-    #     "405":
-    #       description: "Invalid input"
-    #   security:
-    #   - petstore_auth:
-    #     - "write:pets"
-    #     - "read:pets"
+      x-swagger-router-controller: "swagger_server.controllers.target_image_controller"
     delete:
       tags:
       - "targetImage"
       summary: "Deletes a Target Image"
       description: ""
-      operationId: "deletePet"
+      operationId: "delete_pet"
       produces:
       - "application/xml"
       - "application/json"
@@ -241,79 +180,23 @@ paths:
         required: true
         type: "integer"
         format: "int64"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
       responses:
         "400":
           description: "Invalid ID supplied"
         "404":
           description: "TargetImage not found"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  # /targetImage/{targetImageId}/uploadTileImage:
-  #   post:
-  #     tags:
-  #     - "targetImage"
-  #     summary: "uploads a Tile image"
-  #     description: ""
-  #     operationId: "uploadFile"
-  #     consumes:
-  #     - "multipart/form-data"
-  #     produces:
-  #     - "application/json"
-  #     parameters:
-  #     - name: "targetImageId"
-  #       in: "path"
-  #       description: "ID of targetImage to update"
-  #       required: true
-  #       type: "integer"
-  #       format: "int64"
-  #     - name: "additionalMetadata"
-  #       in: "formData"
-  #       description: "Additional data to pass to server"
-  #       required: false
-  #       type: "string"
-  #     - name: "file"
-  #       in: "formData"
-  #       description: "file to upload"
-  #       required: false
-  #       type: "file"
-  #     responses:
-  #       "200":
-  #         description: "successful operation"
-  #         schema:
-  #           $ref: "#/definitions/ApiResponse"
-  #     security:
-  #     - petstore_auth:
-  #       - "write:pets"
-  #       - "read:pets"
-  # /mosaic/inventory:
-  #   get:
-  #     tags:
-  #     - "mosaic"
-  #     summary: "Returns targetImage inventories by status"
-  #     description: "Returns a map of status codes to quantities"
-  #     operationId: "getInventory"
-  #     produces:
-  #     - "application/json"
-  #     parameters: []
-  #     responses:
-  #       "200":
-  #         description: "successful operation"
-  #         schema:
-  #           type: "object"
-  #           additionalProperties:
-  #             type: "integer"
-  #             format: "int32"
-  #     security:
-  #     - api_key: []
+      x-swagger-router-controller: "swagger_server.controllers.target_image_controller"
   /mosaic/process:
     post:
       tags:
       - "mosaic"
       summary: "Place a process order for a Mosaic Image"
       description: ""
-      operationId: "placeOrder"
+      operationId: "place_order"
       produces:
       - "application/xml"
       - "application/json"
@@ -331,13 +214,15 @@ paths:
             $ref: "#/definitions/Process"
         "400":
           description: "Invalid Process"
+      x-swagger-router-controller: "swagger_server.controllers.mosaic_controller"
   /mosaic/process/{processId}:
     get:
       tags:
       - "mosaic"
       summary: "Find past processes by ID"
-      description: "For valid response try integer IDs with value >= 1 and <= 10.         Other values will generated exceptions"
-      operationId: "getOrderById"
+      description: "For valid response try integer IDs with value >= 1 and <= 10.\
+        \         Other values will generated exceptions"
+      operationId: "get_order_by_id"
       produces:
       - "application/xml"
       - "application/json"
@@ -347,8 +232,8 @@ paths:
         description: "ID of targetImage that needs to be fetched"
         required: true
         type: "integer"
-        maximum: 10.0
-        minimum: 1.0
+        maximum: 10
+        minimum: 1
         format: "int64"
       responses:
         "200":
@@ -359,12 +244,14 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Process not found"
+      x-swagger-router-controller: "swagger_server.controllers.mosaic_controller"
     delete:
       tags:
       - "mosaic"
       summary: "Delete past process by ID"
-      description: "For valid response try integer IDs with positive integer value.         Negative or non-integer values will generate API errors"
-      operationId: "deleteOrder"
+      description: "For valid response try integer IDs with positive integer value.\
+        \         Negative or non-integer values will generate API errors"
+      operationId: "delete_order"
       produces:
       - "application/xml"
       - "application/json"
@@ -374,20 +261,21 @@ paths:
         description: "ID of the order that needs to be deleted"
         required: true
         type: "integer"
-        minimum: 1.0
+        minimum: 1
         format: "int64"
       responses:
         "400":
           description: "Invalid ID supplied"
         "404":
           description: "Process not found"
+      x-swagger-router-controller: "swagger_server.controllers.mosaic_controller"
   /user:
     post:
       tags:
       - "user"
       summary: "Create user"
       description: "This can only be done by the logged in user."
-      operationId: "createUser"
+      operationId: "create_user"
       produces:
       - "application/xml"
       - "application/json"
@@ -401,13 +289,14 @@ paths:
       responses:
         default:
           description: "successful operation"
+      x-swagger-router-controller: "swagger_server.controllers.user_controller"
   /user/createWithArray:
     post:
       tags:
       - "user"
       summary: "Creates list of users with given input array"
       description: ""
-      operationId: "createUsersWithArrayInput"
+      operationId: "create_users_with_array_input"
       produces:
       - "application/xml"
       - "application/json"
@@ -423,13 +312,14 @@ paths:
       responses:
         default:
           description: "successful operation"
+      x-swagger-router-controller: "swagger_server.controllers.user_controller"
   /user/createWithList:
     post:
       tags:
       - "user"
       summary: "Creates list of users with given input array"
       description: ""
-      operationId: "createUsersWithListInput"
+      operationId: "create_users_with_list_input"
       produces:
       - "application/xml"
       - "application/json"
@@ -445,13 +335,14 @@ paths:
       responses:
         default:
           description: "successful operation"
+      x-swagger-router-controller: "swagger_server.controllers.user_controller"
   /user/login:
     get:
       tags:
       - "user"
       summary: "Logs user into the system"
       description: ""
-      operationId: "loginUser"
+      operationId: "login_user"
       produces:
       - "application/xml"
       - "application/json"
@@ -469,8 +360,6 @@ paths:
       responses:
         "200":
           description: "successful operation"
-          schema:
-            type: "string"
           headers:
             X-Rate-Limit:
               type: "integer"
@@ -480,15 +369,18 @@ paths:
               type: "string"
               format: "date-time"
               description: "date in UTC when token expires"
+          schema:
+            type: "string"
         "400":
           description: "Invalid username/password supplied"
+      x-swagger-router-controller: "swagger_server.controllers.user_controller"
   /user/logout:
     get:
       tags:
       - "user"
       summary: "Logs out current logged in user session"
       description: ""
-      operationId: "logoutUser"
+      operationId: "logout_user"
       produces:
       - "application/xml"
       - "application/json"
@@ -496,13 +388,14 @@ paths:
       responses:
         default:
           description: "successful operation"
+      x-swagger-router-controller: "swagger_server.controllers.user_controller"
   /user/{username}:
     get:
       tags:
       - "user"
       summary: "Get user by user name"
       description: ""
-      operationId: "getUserByName"
+      operationId: "get_user_by_name"
       produces:
       - "application/xml"
       - "application/json"
@@ -521,12 +414,13 @@ paths:
           description: "Invalid username supplied"
         "404":
           description: "User not found"
+      x-swagger-router-controller: "swagger_server.controllers.user_controller"
     put:
       tags:
       - "user"
       summary: "Updated user"
       description: "This can only be done by the logged in user."
-      operationId: "updateUser"
+      operationId: "update_user"
       produces:
       - "application/xml"
       - "application/json"
@@ -547,12 +441,13 @@ paths:
           description: "Invalid user supplied"
         "404":
           description: "User not found"
+      x-swagger-router-controller: "swagger_server.controllers.user_controller"
     delete:
       tags:
       - "user"
       summary: "Delete user"
       description: "This can only be done by the logged in user."
-      operationId: "deleteUser"
+      operationId: "delete_user"
       produces:
       - "application/xml"
       - "application/json"
@@ -567,6 +462,7 @@ paths:
           description: "Invalid username supplied"
         "404":
           description: "User not found"
+      x-swagger-router-controller: "swagger_server.controllers.user_controller"
 securityDefinitions:
   petstore_auth:
     type: "oauth2"
@@ -575,10 +471,13 @@ securityDefinitions:
     scopes:
       write:pets: "modify pets in your account"
       read:pets: "read your pets"
+    x-tokenInfoFunc: "swagger_server.controllers.authorization_controller.check_petstore_auth"
+    x-scopeValidateFunc: "swagger_server.controllers.authorization_controller.validate_scope_petstore_auth"
   api_key:
     type: "apiKey"
     name: "api_key"
     in: "header"
+    x-apikeyInfoFunc: "swagger_server.controllers.authorization_controller.check_api_key"
 definitions:
   Process:
     type: "object"
@@ -597,11 +496,11 @@ definitions:
       status:
         type: "string"
         description: "Process Status"
+        default: "ready"
         enum:
         - "ready"
         - "processing"
         - "done"
-        default: "ready"
       complete:
         type: "boolean"
         default: false
@@ -609,6 +508,13 @@ definitions:
         type: "string"
     xml:
       name: "Process"
+    example:
+      mosaicImageUrl: "mosaicImageUrl"
+      id: 0
+      targetImageId: 6
+      complete: false
+      startDate: "2000-01-23T04:56:07.000+00:00"
+      status: "ready"
   User:
     type: "object"
     properties:
@@ -633,6 +539,15 @@ definitions:
         description: "User Status"
     xml:
       name: "User"
+    example:
+      firstName: "firstName"
+      lastName: "lastName"
+      password: "password"
+      userStatus: 6
+      phone: "phone"
+      id: 0
+      email: "email"
+      username: "username"
   Tag:
     type: "object"
     properties:
@@ -643,6 +558,9 @@ definitions:
         type: "string"
     xml:
       name: "Tag"
+    example:
+      name: "name"
+      id: 6
   TargetImage:
     type: "object"
     required:
@@ -671,16 +589,17 @@ definitions:
           $ref: "#/definitions/Tag"
     xml:
       name: "TargetImage"
-  # ApiResponse:
-  #   type: "object"
-  #   properties:
-  #     code:
-  #       type: "integer"
-  #       format: "int32"
-  #     type:
-  #       type: "string"
-  #     message:
-  #       type: "string"
+    example:
+      name: "doggie image"
+      tileImageUrls:
+      - "tileImageUrls"
+      - "tileImageUrls"
+      id: 0
+      tags:
+      - name: "name"
+        id: 6
+      - name: "name"
+        id: 6
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"
