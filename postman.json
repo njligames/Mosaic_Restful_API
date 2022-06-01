@@ -1,0 +1,493 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Swagger Petstore",
+		"_postman_id": "6d198898-ab90-fae9-8cf6-0f966ed6d7eb",
+		"description": "This is a sample server Petstore server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "mosaic",
+			"description": "Folder for mosaic",
+			"item": [
+				{
+					"name": "Place a process order for a Mosaic Image",
+					"request": {
+						"url": "https://127.0.0.1:8080/v2/mosaic/process",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml, application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "order placed for processing the targetImage"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Find past processes by ID",
+					"request": {
+						"url": {
+							"raw": "https://127.0.0.1:8080/v2/mosaic/process/:processId",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"v2",
+								"mosaic",
+								"process",
+								":processId"
+							],
+							"query": [],
+							"variable": [
+								{
+									"value": "{{processId}}",
+									"id": "processId"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml, application/json",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "For valid response try integer IDs with value >= 1 and <= 10.         Other values will generated exceptions"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete past process by ID",
+					"request": {
+						"url": {
+							"raw": "https://127.0.0.1:8080/v2/mosaic/process/:processId",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"v2",
+								"mosaic",
+								"process",
+								":processId"
+							],
+							"query": [],
+							"variable": [
+								{
+									"value": "{{processId}}",
+									"id": "processId"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml, application/json",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "For valid response try integer IDs with positive integer value.         Negative or non-integer values will generate API errors"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "targetImage",
+			"description": "Folder for targetImage",
+			"item": [
+				{
+					"name": "Update an existing Target Image",
+					"request": {
+						"url": "https://127.0.0.1:8080/v2/targetImage",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml, application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "TargetImage object that needs to be added to be processed as a mosaic."
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add a new Target Image to be processed as a mosaic",
+					"request": {
+						"url": "https://127.0.0.1:8080/v2/targetImage",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml, application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "TargetImage object that needs to be added to be processed into a mosaic"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Finds Target Image by tags",
+					"request": {
+						"url": "https://127.0.0.1:8080/v2/targetImage/findByTags?tags={{tags}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml, application/json",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Muliple tags can be provided with comma separated strings. Use         tag1, tag2, tag3 for testing."
+					},
+					"response": []
+				},
+				{
+					"name": "Find Target Image by ID",
+					"request": {
+						"url": {
+							"raw": "https://127.0.0.1:8080/v2/targetImage/:targetImageId",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"v2",
+								"targetImage",
+								":targetImageId"
+							],
+							"query": [],
+							"variable": [
+								{
+									"value": "{{targetImageId}}",
+									"id": "targetImageId"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml, application/json",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Returns a single targetImage"
+					},
+					"response": []
+				},
+				{
+					"name": "Deletes a Target Image",
+					"request": {
+						"url": {
+							"raw": "https://127.0.0.1:8080/v2/targetImage/:targetImageId",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"v2",
+								"targetImage",
+								":targetImageId"
+							],
+							"query": [],
+							"variable": [
+								{
+									"value": "{{targetImageId}}",
+									"id": "targetImageId"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml, application/json",
+								"description": ""
+							},
+							{
+								"key": "api_key",
+								"value": "{{api_key}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"description": "Folder for user",
+			"item": [
+				{
+					"name": "Create user",
+					"request": {
+						"url": "https://127.0.0.1:8080/v2/user",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml, application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "Created user object"
+						},
+						"description": "This can only be done by the logged in user."
+					},
+					"response": []
+				},
+				{
+					"name": "Creates list of users with given input array",
+					"request": {
+						"url": "https://127.0.0.1:8080/v2/user/createWithArray",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml, application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "List of user object"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Creates list of users with given input array",
+					"request": {
+						"url": "https://127.0.0.1:8080/v2/user/createWithList",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml, application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "List of user object"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Logs user into the system",
+					"request": {
+						"url": "https://127.0.0.1:8080/v2/user/login?username={{username}}&password={{password}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml, application/json",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Logs out current logged in user session",
+					"request": {
+						"url": "https://127.0.0.1:8080/v2/user/logout",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml, application/json",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by user name",
+					"request": {
+						"url": {
+							"raw": "https://127.0.0.1:8080/v2/user/:username",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"v2",
+								"user",
+								":username"
+							],
+							"query": [],
+							"variable": [
+								{
+									"value": "{{username}}",
+									"id": "username"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml, application/json",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Updated user",
+					"request": {
+						"url": {
+							"raw": "https://127.0.0.1:8080/v2/user/:username",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"v2",
+								"user",
+								":username"
+							],
+							"query": [],
+							"variable": [
+								{
+									"value": "{{username}}",
+									"id": "username"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml, application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "Updated user object"
+						},
+						"description": "This can only be done by the logged in user."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"request": {
+						"url": {
+							"raw": "https://127.0.0.1:8080/v2/user/:username",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"v2",
+								"user",
+								":username"
+							],
+							"query": [],
+							"variable": [
+								{
+									"value": "{{username}}",
+									"id": "username"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml, application/json",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "This can only be done by the logged in user."
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
